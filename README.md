@@ -1,4 +1,4 @@
-# MagentoClaraModule
+# ClaraConfigurator
 
 ## How to use
 
