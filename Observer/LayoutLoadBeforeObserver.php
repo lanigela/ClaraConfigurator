@@ -39,7 +39,9 @@ class LayoutLoadBeforeObserver implements ObserverInterface
             /* @var $product \Magento\Catalog\Model\Product */
             $product = $observer->getEvent()->getProduct();
             if ($product) {
+                $this->_logger->debug("Product is not null");
                 $attr = $product->getData('claraUUID');
+                $this->_logger->debug($attr);
                 if($attr && strcmp($attr, '')) {
                     $this->_logger.debug("Adding handle to layout");
                     $layout = $observer->getData('layout');
