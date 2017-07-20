@@ -13,7 +13,7 @@ $product = $block->getProduct();
       <script type="text/x-magento-init">
         {
           "[data-role=clara-panelControl]": {
-            "js/clara-configurator": {
+            "clara_configurator": {
               "optionConfig": <?php /* @escapeNotVerified */ echo $block->getJsonConfig()?>,
               "claraUUID": <?php echo json_encode($product->getResource()->getAttribute('clarauuid')->getFrontend()->getValue($product))?>
             }

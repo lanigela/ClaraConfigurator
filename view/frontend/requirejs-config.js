@@ -6,5 +6,11 @@ var config = {
         "claraplayer": {
             exports: "claraplayer"
         }
+    },
+    map: {
+        '*': {
+            clara_player:               'Exocortex_ClaraConfigurator/js/clara-player',
+            clara_configurator:         'Exocortex_ClaraConfigurator/js/clara-configurator'
+        }
     }
 };
