@@ -44,7 +44,7 @@ class LayoutLoadBeforeObserver implements ObserverInterface
             $product = $this->_registry->registry('current_product');
             if ($product) {
                 $this->_logger->debug("Product is not null");
-                $attr = $product->getData('claraUUID');
+                $attr = $product->getData('clarauuid');
                 $this->_logger->debug($attr);
                 if($attr && strcmp($attr, '')) {
                     $this->_logger->debug("Adding handle to layout");
