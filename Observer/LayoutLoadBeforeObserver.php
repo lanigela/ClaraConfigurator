@@ -50,7 +50,7 @@ class LayoutLoadBeforeObserver implements ObserverInterface
                     $this->_logger->debug("Adding handle to layout");
                     $layout = $observer->getData('layout');
 
-                    $update = $$layout->getUpdate();
+                    $update = $layout->getUpdate();
                     $handles = $update->getHandles();
                     $update->resetHandles();
 
