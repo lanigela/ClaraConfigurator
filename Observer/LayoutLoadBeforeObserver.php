@@ -32,16 +32,16 @@ class LayoutLoadBeforeObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        _logger->debug("LayoutLoadBeforeObserver executing");
+        $this->_logger->debug("LayoutLoadBeforeObserver executing");
         // apply to only bundle product for now
         if ($observer->getData('full_action_name')=='catalog_product_view_type_bundle') {
-            _logger->debug("Matching action name succeed");
+            $this->_logger->debug("Matching action name succeed");
             /* @var $product \Magento\Catalog\Model\Product */
             $product = $observer->getEvent()->getProduct();
             if ($product) {
                 $attr = $product->getData('claraUUID');
                 if($attr && !strcmp($attr, '')) {
-                    _logger.debug("Adding handle to layout");
+                    $this->_logger.debug("Adding handle to layout");
                     $layout = $observer->getData('layout');
                     $layout->getUpdate()->addHandle('catalog_product_view_type_bundle_clara');
                 }
