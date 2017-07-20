@@ -29,7 +29,7 @@ class LayoutLoadBeforeObserver implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         // apply to only bundle product for now
-        if ($observer->getEvent()->getRequest()->getFullActionName()=='catalog_product_view_type_bundle') {
+        if ($observer->getData('full_action_name')=='catalog_product_view_type_bundle') {
             /* @var $product \Magento\Catalog\Model\Product */
             $product = $observer->getEvent()->getProduct();
             if ($product) {
