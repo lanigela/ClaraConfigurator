@@ -21,7 +21,7 @@ class LayoutLoadBeforeObserver implements ObserverInterface
                                 LoggerInterface $logger)
     {
         $this->_productRepository = $productRepository;
-        $this->_logger = logger;
+        $this->_logger = $logger;
     }
 
     /**
