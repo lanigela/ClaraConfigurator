@@ -13,7 +13,7 @@
 
       <referenceContainer name="product.info.media">
         <referenceBlock name="product.info.media.image" remove="true"/>
-        <block class="Magento\Framework\View\Element\Template" name="product.info.media.claraPlayer" template="ClaraPlayer.phtml"/>
+        <block class="Magento\Framework\View\Element\Template" name="product.info.media.claraPlayer" template="Exocortex_ClaraConfigurator::ClaraPlayer.phtml"/>
       </referenceContainer>
 
       <container name="product.info.clara" htmlTag="div" htmlClass="product-info-main" before="product.info.details">
@@ -23,7 +23,7 @@
           </container>
           <block class="Magento\Framework\View\Element\Template" name="product.info.form.options" as="options_container">
             <block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper" as="product_options_wrapper" template="Magento_Catalog::product/view/options/wrapper.phtml">
-              <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.clara.configurator" as="clara_configurator" template="catalog/product/view/type/bundle/ClaraConfigurator.phtml"/>
+              <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.clara.configurator" as="clara_configurator" template="Exocortex_ClaraConfigurator::catalog/product/view/type/bundle/ClaraConfigurator.phtml"/>
             </block>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="Magento_Catalog::product/view/options/wrapper/bottom.phtml">
               <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart.additional" as="product.info.addtocart" template="Magento_Catalog::product/view/addtocart.phtml"/>
