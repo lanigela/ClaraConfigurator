@@ -40,7 +40,7 @@ class LayoutLoadBeforeObserver implements ObserverInterface
             $product = $observer->getEvent()->getProduct();
             if ($product) {
                 $attr = $product->getData('claraUUID');
-                if($attr && !strcmp($attr, '')) {
+                if($attr && strcmp($attr, '')) {
                     $this->_logger.debug("Adding handle to layout");
                     $layout = $observer->getData('layout');
                     $layout->getUpdate()->addHandle('catalog_product_view_type_bundle_clara');
