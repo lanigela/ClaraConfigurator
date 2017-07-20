@@ -49,7 +49,19 @@ class LayoutLoadBeforeObserver implements ObserverInterface
                 if($attr && strcmp($attr, '')) {
                     $this->_logger->debug("Adding handle to layout");
                     $layout = $observer->getData('layout');
-                    $layout->getUpdate()->addHandle('catalog_product_view_type_bundle_clara');
+
+                    $update = $$layout->getUpdate();
+                    $handles = $update->getHandles();
+                    $update->resetHandles();
+
+                    // exclude catalog_product_view_type_bundle
+                    foreach ($handles as $handle) {
+                        if ($handle != 'catalog_product_view_type_bundle') {
+                            $this->_logger->debug($handle);
+                            $update->addHandle($handle);
+                        }
+                    }
+                    $update->addHandle('catalog_product_view_type_bundle_clara');
                 }
             }
         }
