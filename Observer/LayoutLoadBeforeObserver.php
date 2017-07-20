@@ -7,6 +7,7 @@ namespace Exocortex\ClaraConfigurator\Observer;
 
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Registry;
 use Magento\Catalog\Api\ProductRepositoryInterface as ProductRepositoryInterface;
 use Psr\Log\LoggerInterface as LoggerInterface;
 
@@ -14,14 +15,17 @@ class LayoutLoadBeforeObserver implements ObserverInterface
 {
     private $_productRepository;
     private $_logger;
+    private $_registry;
     /**
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      */
     public function __construct(ProductRepositoryInterface $productRepository,
-                                LoggerInterface $logger)
+                                LoggerInterface $logger,
+                                \Magento\Framework\Registry $registry)
     {
         $this->_productRepository = $productRepository;
         $this->_logger = $logger;
+        $this->_registry = $registry;
     }
 
     /**
@@ -37,7 +41,7 @@ class LayoutLoadBeforeObserver implements ObserverInterface
         if ($observer->getData('full_action_name')=='catalog_product_view') {
             $this->_logger->debug("Matching action name succeed");
             /* @var $product \Magento\Catalog\Model\Product */
-            $product = $observer->getEvent()->getProduct();
+            $product = $this->_registry->registry('current_product');
             if ($product) {
                 $this->_logger->debug("Product is not null");
                 $attr = $product->getData('claraUUID');
