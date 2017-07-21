@@ -36,18 +36,12 @@ class LayoutLoadBeforeObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        $this->_logger->debug("LayoutLoadBeforeObserver executing");
-
         if ($observer->getData('full_action_name')=='catalog_product_view') {
-            $this->_logger->debug("Matching action name succeed");
             /* @var $product \Magento\Catalog\Model\Product */
             $product = $this->_registry->registry('current_product');
             if ($product) {
-                $this->_logger->debug("Product is not null");
                 $attr = $product->getData('clarauuid');
-                $this->_logger->debug($attr);
                 if($attr && strcmp($attr, '')) {
-                    $this->_logger->debug("Adding handle to layout");
                     $layout = $observer->getData('layout');
 
                     $update = $layout->getUpdate();
@@ -56,7 +50,6 @@ class LayoutLoadBeforeObserver implements ObserverInterface
                     // exclude catalog_product_view_type_bundle
                     foreach ($handles as $handle) {
                         if ($handle == 'catalog_product_view_type_bundle') {
-                            $this->_logger->debug("Overriding bundle layout");
                             $update->removeHandle($handle);
                         }
                     }

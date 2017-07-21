@@ -33,6 +33,7 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        $this->_logger->debug("aaaaaaaaaaaaaaaaaaa");
         /* @var \Magento\Quote\Model\Quote\Item $item */
         $item = $observer->getQuoteItem();
 
