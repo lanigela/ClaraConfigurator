@@ -18,7 +18,7 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
     /**
      * @param RequestInterface $request
      */
-    public function __construct(RequestInterface $request
+    public function __construct(RequestInterface $request,
                                 LoggerInterface $logger)
     {
         $this->_request = $request;
