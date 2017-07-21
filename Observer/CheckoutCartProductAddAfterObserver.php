@@ -47,13 +47,7 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
         $this->_logger->debug("Printing post");
         $this->_logger->debug($post);
 
-        $item->addOption(array(
-                'product_id' => $item->getProductId(),
-                'code' => 'additional_options',
-                'value' => serialize($post)
-            ));
-
-        /*if(is_array($post)){
+        if(is_array($post)){
             foreach($post as $key => $value){
                 if($key == '' || $value == ''){
                     continue;
@@ -67,6 +61,12 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
                 ];
             }
         }
+        else {
+            $additionalOptions[] = [
+                    'label' => 'Option',
+                    'value' => $post
+                ];
+        }
 
         if(count($additionalOptions) > 0){
             $item->addOption(array(
@@ -74,6 +74,6 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
                 'code' => 'additional_options',
                 'value' => serialize($additionalOptions)
             ));
-        }*/
+        }
     }
 }
