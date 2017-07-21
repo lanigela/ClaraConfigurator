@@ -328,9 +328,9 @@ define([
 
         // set option name and leave default value empty
         optionEI.setAttribute('name', 'bundle_option[' + key + ']');
-        optionEI.setAttribute('id', 'bundle_option[' + key + ']')
+        optionEI.setAttribute('id', 'bundle_option[' + key + ']');
         optionEI.setAttribute('value', '');
-        optionEI.setAttribute('type','hidden')
+        optionEI.setAttribute('type','hidden');
         // set option quantity
         optionQtyEI.setAttribute('name', 'bundle_option_qty[' + key + ']');
         optionQtyEI.setAttribute('id', 'bundle_option_qty[' + key + ']');
@@ -340,6 +340,14 @@ define([
         formFields.appendChild(optionEI);
         formFields.appendChild(optionQtyEI)
       }
+      // additional options
+      var addEI = document.createElement('input');
+      addEI.setAttribute('name', 'clara_additional_options');
+      addEI.setAttribute('id', 'clara_additional_options');
+      addEI.setAttribute('value', '');
+      addEI.setAttribute('type','hidden');
+      formFields.appendChild(addEI);
+
       wrapper.appendChild(formFields);
       console.log("done");
     },
@@ -397,6 +405,9 @@ define([
       var volumeValue = map.get('Volume_Price').get('values').get(materialPrice).get('key');
       document.getElementById('bundle_option[' + volumeId + ']').setAttribute('value', volumeValue);
       document.getElementById('bundle_option_qty[' + volumeId + ']').setAttribute('value', volume);
+
+      // update additional options
+      document.getElementById('clara_additional_options').setAttribute('value', 'This is a test');
     }
 
   });
