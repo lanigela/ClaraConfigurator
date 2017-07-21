@@ -29,6 +29,36 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        /* @var \Magento\Quote\Model\Quote\Item $item */
+        $item = $observer->getQuoteItem();
 
+        $additionalOptions = array();
+
+        if ($additionalOption = $item->getOptionByCode('additional_options')){
+            $additionalOptions = (array) unserialize($additionalOption->getValue());
+        }
+
+        $post = $this->_request->getParam('clara_additional_options');
+
+        if(is_array($post)){
+            foreach($post as $key => $value){
+                if($key == '' || $value == ''){
+                    continue;
+                }
+
+                $additionalOptions[] = [
+                    'label' => $key,
+                    'value' => $value
+                ];
+            }
+        }
+
+        if(count($additionalOptions) > 0){
+            $item->addOption(array(
+                'product_id' => $item->getProductId(),
+                'code' => 'additional_options',
+                'value' => serialize($additionalOptions)
+            ));
+        }
     }
 }
