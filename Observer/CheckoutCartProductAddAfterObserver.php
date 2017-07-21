@@ -8,17 +8,21 @@ namespace Exocortex\ClaraConfigurator\Observer;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\App\RequestInterface;
+use Psr\Log\LoggerInterface as LoggerInterface;
 
 class CheckoutCartProductAddAfterObserver implements ObserverInterface
 {
     protected $_request;
+    private $_logger;
 
     /**
      * @param RequestInterface $request
      */
-    public function __construct(RequestInterface $request)
+    public function __construct(RequestInterface $request
+                                LoggerInterface $logger)
     {
         $this->_request = $request;
+        $this->_logger = $logger;
     }
 
     /**
@@ -45,6 +49,8 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
                 if($key == '' || $value == ''){
                     continue;
                 }
+                $this->_logger->debug("Adding clara_additional_options");
+                $this->_logger->debug("$value");
 
                 $additionalOptions[] = [
                     'label' => $key,
