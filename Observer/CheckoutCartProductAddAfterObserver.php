@@ -47,7 +47,13 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
         $this->_logger->debug("Printing post");
         $this->_logger->debug($post);
 
-        if(is_array($post)){
+        $item->addOption(array(
+                'product_id' => $item->getProductId(),
+                'code' => 'additional_options',
+                'value' => $post
+            ));
+
+        /*if(is_array($post)){
             foreach($post as $key => $value){
                 if($key == '' || $value == ''){
                     continue;
@@ -68,6 +74,6 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
                 'code' => 'additional_options',
                 'value' => serialize($additionalOptions)
             ));
-        }
+        }*/
     }
 }
