@@ -33,7 +33,6 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        $this->_logger->debug("aaaaaaaaaaaaaaaaaaa");
         /* @var \Magento\Quote\Model\Quote\Item $item */
         $item = $observer->getQuoteItem();
 
@@ -44,16 +43,12 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
         }
 
         $post = $this->_request->getParam('clara_additional_options');
-        $this->_logger->debug("Printing post");
-        $this->_logger->debug($post);
 
         if(is_array($post)){
             foreach($post as $key => $value){
                 if($key == '' || $value == ''){
                     continue;
                 }
-                $this->_logger->debug("Adding clara_additional_options");
-                $this->_logger->debug("$value");
 
                 $additionalOptions[] = [
                     'label' => $key,

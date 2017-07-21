@@ -7,6 +7,7 @@ namespace Exocortex\ClaraConfigurator\Observer;
 
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Framework\Event\ObserverInterface;
+use Psr\Log\LoggerInterface as LoggerInterface;
 
 class SalesModelServiceQuoteSubmitBeforeObserver implements ObserverInterface
 {
@@ -15,6 +16,12 @@ class SalesModelServiceQuoteSubmitBeforeObserver implements ObserverInterface
     private $quote = null;
     private $order = null;
 
+    private $_logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->_logger = $logger;
+    }
 
     /**
      * copy comments from quote to sale
@@ -22,17 +29,16 @@ class SalesModelServiceQuoteSubmitBeforeObserver implements ObserverInterface
      * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(\Magento\Framework\Event\Observer $observer,
+                            LoggerInterface $logger)
     {
         $this->quote = $observer->getQuote();
         $this->order = $observer->getOrder();
 
-        // can not find an equivalent event for sales_convert_quote_item_to_order_item
-
 
         /* @var  \Magento\Sales\Model\Order\Item $orderItem */
         foreach($this->order->getItems() as $orderItem){
-            if(!$orderItem->getParentItemId() && $orderItem->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE){
+            if(!$orderItem->getParentItemId() && $orderItem->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE){
 
                 if($quoteItem = $this->getQuoteItemById($orderItem->getQuoteItemId())){
                     if ($additionalOptionsQuote = $quoteItem->getOptionByCode('additional_options')) {
@@ -41,7 +47,13 @@ class SalesModelServiceQuoteSubmitBeforeObserver implements ObserverInterface
                         // - check to make sure element are not added twice
                         // - $additionalOptionsQuote - may not be an array
                         if($additionalOptionsOrder = $orderItem->getProductOptionByCode('additional_options')){
-                            $additionalOptions = array_merge($additionalOptionsQuote, $additionalOptionsOrder);
+                            if(is_array($additionalOptionsQuote)) {
+                                $this->_logger->debug("aaaaaaaaaaa");
+                                $additionalOptions = array_merge($additionalOptionsQuote, $additionalOptionsOrder);
+                            }
+                            else {
+                                $this->_logger->debug("bbbbbbbbbb");
+                            }
                         }
                         else{
                             $additionalOptions = $additionalOptionsQuote;
@@ -65,8 +77,7 @@ class SalesModelServiceQuoteSubmitBeforeObserver implements ObserverInterface
             /* @var  \Magento\Quote\Model\Quote\Item $item */
             foreach($this->quote->getItems() as $item){
 
-                //filter out config/bundle etc product
-                if(!$item->getParentItemId() && $item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE){
+                if(!$item->getParentItemId() && $item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE){
                     $this->quoteItems[$item->getId()] = $item;
                 }
             }
