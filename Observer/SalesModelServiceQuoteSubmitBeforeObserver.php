@@ -29,8 +29,7 @@ class SalesModelServiceQuoteSubmitBeforeObserver implements ObserverInterface
      * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function execute(\Magento\Framework\Event\Observer $observer,
-                            LoggerInterface $logger)
+    public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $this->_logger->debug("Calling SalesModelService Observer");
         $this->quote = $observer->getQuote();
