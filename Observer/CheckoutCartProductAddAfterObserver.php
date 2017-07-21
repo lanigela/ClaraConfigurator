@@ -50,7 +50,7 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
         $item->addOption(array(
                 'product_id' => $item->getProductId(),
                 'code' => 'additional_options',
-                'value' => $post
+                'value' => serialize($post)
             ));
 
         /*if(is_array($post)){
