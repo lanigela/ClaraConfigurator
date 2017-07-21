@@ -32,17 +32,20 @@ class SalesModelServiceQuoteSubmitBeforeObserver implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer,
                             LoggerInterface $logger)
     {
+        $this->_logger->debug("Calling SalesModelService Observer");
         $this->quote = $observer->getQuote();
         $this->order = $observer->getOrder();
 
 
         /* @var  \Magento\Sales\Model\Order\Item $orderItem */
         foreach($this->order->getItems() as $orderItem){
+            $this->_logger->debug("Foreach order item");
             if(!$orderItem->getParentItemId() && $orderItem->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE){
-
+                $this->_logger->debug("No parent and is bundle");
                 if($quoteItem = $this->getQuoteItemById($orderItem->getQuoteItemId())){
+                    $this->_logger->debug("There is quote item");
                     if ($additionalOptionsQuote = $quoteItem->getOptionByCode('additional_options')) {
-
+                        $this->_logger->debug("additional_options");
                         //To do
                         // - check to make sure element are not added twice
                         // - $additionalOptionsQuote - may not be an array
