@@ -43,6 +43,8 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
         }
 
         $post = $this->_request->getParam('clara_additional_options');
+        $this->_logger->debug("Printing post");
+        $this->_logger->debug($post);
 
         if(is_array($post)){
             foreach($post as $key => $value){
