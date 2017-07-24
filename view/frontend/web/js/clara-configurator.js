@@ -18,7 +18,7 @@ define([
   'use strict';
 
   window.claraplayer = claraPlayer;
-  require(["js/main"]);
+  require(["cillowreact"]);
 
   $.widget('clara.Configurator', {
     options: {
