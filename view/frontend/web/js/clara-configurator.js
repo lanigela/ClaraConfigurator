@@ -46,11 +46,10 @@ define([
 
     _setupConfigurator: function _setupConfigurator(clara) {
       var self = this;
-      clara.on('load', function () {
-        self.configMap = self._mappingConfiguration(clara.configuration.getAttributes(), self.options.optionConfig.options);
-        self.configType = self._createConfigType(clara.configuration.getAttributes());
-        self._createFormFields(self.options.optionConfig.options);
-      });
+      // clara is already loaded at this point
+      self.configMap = self._mappingConfiguration(clara.configuration.getAttributes(), self.options.optionConfig.options);
+      self.configType = self._createConfigType(clara.configuration.getAttributes());
+      self._createFormFields(self.options.optionConfig.options);
 
       var dimensions = ['Height', 'Width (A)', 'Depth'];
 
