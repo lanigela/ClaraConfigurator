@@ -211,12 +211,7 @@ define([
           }
         }
         if (!foundMatching) {
-          if (primaryKey.has('nested')) {
-            optionsNotFound.push(primaryValue);
-          }
-          else {
-            console.warn("Can not find primary value " + primaryValue + " in target config");
-          }
+          console.warn("Can not find primary value " + primaryValue + " in target config");
         }
       }
 
@@ -224,7 +219,12 @@ define([
       for (var tKey in target) {
         var targetValue = targetKey.get('type') === 'object' ? target[tKey][targetKey.get('key')] : target[tKey];
         if (!valueHasMapped.has(targetValue)) {
-          console.warn("Target value " + targetValue + " has not been mapped!");
+          if (targetKey.has('nested')) {
+            optionsNotFound.push(primaryValue);
+          }
+          else {
+            console.warn("Target value " + targetValue + " has not been mapped!");
+          }
         }
       }
       return map;
