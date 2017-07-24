@@ -25,9 +25,20 @@ define([
       claraUUID: ''
     },
 
+    /*
+    * map clara config to magento option id
+    */
     configMap: null,
 
+    /*
+    * type can be Options, Number, Boolean, Color
+    */
     configType: null,
+
+    /* for a config option in clara, if a mapping in magento config cannot be found,
+    *  treat it as an additional text field when add to cart
+    */
+    additionalOptions: null,
 
     isMapCreated: false,
 
@@ -61,7 +72,7 @@ define([
           self.isMapCreated = true;
         }
         // update add-to-cart form
-        self._updateFormFields(clara.configuration.getConfiguration(), self.configMap, self.configType, dimensions);
+        self._updateFormFields(clara.configuration.getConfiguration(), self.configMap, self.configType, self.additionalOptions, dimensions);
       });
     },
 
@@ -117,19 +128,21 @@ define([
       };
       claraCon.push(volumePrice);
 
-      var map = this._reverseMapping(magentoCon, magentoKey, claraCon, claraKey);
+      this.additionalOptions = [];
+      var map = this._reverseMapping(magentoCon, magentoKey, claraCon, claraKey, this.additionalOptions);
       if (!map) {
         console.error("Auto mapping clara configuration with magento failed");
         return null;
       }
       console.log(map);
+      console.log(this.additionalOptions);
 
       return map;
     },
 
 
     // recursively reverse mapping in primary using target as reference
-    _reverseMapping: function reverseMapping(primary, primaryKey, target, targetKey) {
+    _reverseMapping: function reverseMapping(primary, primaryKey, target, targetKey, optionsNotFound) {
       // result (using ES6 map)
       var map = new Map();
       // save the values in target that already find a matching, to ensure 1-to-1 mapping
@@ -198,7 +211,12 @@ define([
           }
         }
         if (!foundMatching) {
-          console.warn("Can not find primary value " + primaryValue + " in target config");
+          if (primaryKey.has('nested')) {
+            optionsNotFound.push(primaryValue);
+          }
+          else {
+            console.warn("Can not find primary value " + primaryValue + " in target config");
+          }
         }
       }
 
@@ -273,8 +291,9 @@ define([
     },
 
     // update form fields when configuration change
-    _updateFormFields: function updateFormFields(config, map, configType, dimensions) {
+    _updateFormFields: function updateFormFields(config, map, configType, additionalOptions, dimensions) {
       var volume = 1;
+      var additionalString = "";
       for (var attr in config) {
         if (map.has(attr)) {
           var attrId = map.get(attr).get('key');
@@ -295,7 +314,9 @@ define([
                   attr === "Leather Options" && config["Cover Material"] === "Fabric") {
                 break;
               }
-              var attrValue = map.get(attr).get('values').get(config[attr]).get('key');
+              // sometimes config[attr] is an obj...
+              var configString = typeof config[attr] == 'string' ? config[attr] : config[attr].value;
+              var attrValue = map.get(attr).get('values').get(configString).get('key');
               document.getElementById('bundle_option[' + attrId + ']').setAttribute('value', attrValue);
               document.getElementById('bundle_option_qty[' + attrId + ']').setAttribute('value', '1');
               break;
@@ -310,6 +331,24 @@ define([
           }
 
 
+        }
+        else if (additionalOptions.includes(attr)) {
+          var optionString = "";
+          if (typeof config[attr] == 'string') {
+            optionString = config[attr];
+          }
+          else if (typeof config[attr] == 'number') {
+            optionString = config[attr].toString();
+          }
+          else if (typeof config[attr] == 'object') {
+            for (var key in config[attr]) {
+              optionString = optionString + key + ": " + config[attr][key] + " ";
+            }
+          }
+          else {
+            console.warn("Don't know how to print " + attr);
+          }
+          additionalString = additionalString + attr + ": " + optionString + "\r\n";
         }
         else {
           console.warn(attr + " not found in config map");
