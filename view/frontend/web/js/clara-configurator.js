@@ -220,7 +220,7 @@ define([
         var targetValue = targetKey.get('type') === 'object' ? target[tKey][targetKey.get('key')] : target[tKey];
         if (!valueHasMapped.has(targetValue)) {
           if (targetKey.has('nested')) {
-            optionsNotFound.push(primaryValue);
+            optionsNotFound.push(targetValue);
           }
           else {
             console.warn("Target value " + targetValue + " has not been mapped!");
