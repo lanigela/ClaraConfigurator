@@ -35,13 +35,14 @@ define([
     },
 
     _create: function create() {
-      // init clara player
+      require(["cillowreact"]);
+      /*// init clara player
       console.log("ClaraUUID=" + this.options.claraUUID);
       var clara = claraPlayer('clara-player');
       var configuratorPanelId = "clara-panelControl";
       this._initClaraPlayer(clara, this.options.claraUUID, configuratorPanelId);
 
-      console.log(this.options.optionConfig);
+      console.log(this.options.optionConfig);*/
     },
 
 
