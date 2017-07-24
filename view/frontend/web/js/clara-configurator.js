@@ -18,7 +18,7 @@ define([
   'use strict';
 
   window.claraplayer = claraPlayer;
-  require(["cillowreact"]);
+  require(["js/main"]);
 
   $.widget('clara.Configurator', {
     options: {
@@ -35,7 +35,7 @@ define([
     },
 
     _create: function create() {
-      require(["cillowreact"]);
+      require(["js/main"]);
       /*// init clara player
       console.log("ClaraUUID=" + this.options.claraUUID);
       var clara = claraPlayer('clara-player');
