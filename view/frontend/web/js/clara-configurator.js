@@ -34,122 +34,30 @@ define([
     },
 
     _create: function create() {
+      // init react app
       require(["cillowreact"]);
-      /*// init clara player
-      console.log("ClaraUUID=" + this.options.claraUUID);
-      var clara = claraPlayer('clara-player');
-      var configuratorPanelId = "clara-panelControl";
-      this._initClaraPlayer(clara, this.options.claraUUID, configuratorPanelId);
 
-      console.log(this.options.optionConfig);*/
+
+      // setup configurator
+      this._setupConfigurator(window.clara.api);
+
+      console.log(this.options.optionConfig);
     },
 
-
-    _initClaraPlayer: function initClaraPlayer(clara, uuid, panelid) {
-      /*
-      * Copied from David's cillowsDemo.js
-      */
+    _setupConfigurator: function _setupConfigurator(clara) {
       var self = this;
-      var sceneId = uuid; // clara.io, live demo
-      var api = clara;
-
-      var THREE = api.deps.THREE;
-
-      api.sceneIO.fetchAndUse(sceneId, null, { waitForPublish: true });
-      api.on('loaded', function () {
-        ['orbit', 'pan', 'zoom'].forEach(function (tool) {
-          api.player.hideTool(tool);
-        });
-        api.configuration.initConfigurator({ form: 'Default', el: document.getElementById(panelid) });
-
+      clara.on('load', function () {
         self.configMap = self._mappingConfiguration(clara.configuration.getAttributes(), self.options.optionConfig.options);
         self.configType = self._createConfigType(clara.configuration.getAttributes());
         self._createFormFields(self.options.optionConfig.options);
       });
 
-
-      var defaultDimensions = {
-        Length: 50,
-        Width: 50,
-        Depth: 8,
-      };
-
       var dimensions = ['Height', 'Width (A)', 'Depth'];
 
-      var selfConfigChange = false;
-
-      api.on('configurationChange', function (ev1) {
-        // api.player.frameScene();
-
-        var changedName = ev1[0].name;
-
-        var config = api.configuration.getConfiguration();
-
-        // back pillows allow depth up to 45cm
-        if (changedName === 'Pillow Type') {
-          var maxDepth = 25;
-          if (config['Pillow Type'] === 'Back' || config['Pillow Type'] === 'Back (Angled)') {
-            maxDepth = 45;
-          }
-          api.configuration.setAttribute('Depth', { maxValue: maxDepth });
-        }
-
-        // Resizing is handled manually here for convenience/flexibility over configurator actions
-        if (changedName === 'Width (A)' || changedName === 'Length' || changedName === 'Depth') {
-          var widthHalf = (Number(config['Width (A)']) - defaultDimensions.Width) / 100 / 2;
-          var lengthHalf = (Number(config['Length']) - defaultDimensions.Length) / 100 / 2;
-          var depthHalf = (Number(config['Depth']) - defaultDimensions.Depth) / 100 / 2;
-
-          // Stretch pillows and attachments along the appropriate dimensions
-          ['bottom*', 'back*', 'mesh_elastic', 'mesh_Velcro_strip', 'pocket*'].forEach(function (nodeName) {
-            api.scene.setAll({ name: nodeName, plug: 'PolyMesh', properties: { name: 'StretchX' }, property: 'stretchDistance' },
-              widthHalf);
-          });
-
-          ['bottom*', 'back*', 'pocket*'].forEach(function (nodeName) {
-            api.scene.setAll({ name: nodeName, plug: 'PolyMesh', properties: { name: 'StretchY' }, property: 'stretchDistance' },
-              lengthHalf);
-          });
-
-          ['bottom*', 'back*'].forEach(function (nodeName) {
-            api.scene.setAll({ name: nodeName, plug: 'PolyMesh', properties: { name: 'StretchZ' }, property: 'stretchDistance' },
-              depthHalf);
-          });
-
-          // Offset attachments to match pillow resizing
-          api.scene.setAll({ name: 'Stretch_Offset_Z', plug: 'Transform', property: 'translation' }, new THREE.Vector3(0, 0, -depthHalf));
-          api.scene.setAll({ name: 'Stretch_Offset_XZ', plug: 'Transform', property: 'translation' }, new THREE.Vector3(widthHalf, 0, -depthHalf));
-          api.scene.setAll({ name: 'Stretch_Offset_-XZ', plug: 'Transform', property: 'translation' }, new THREE.Vector3(-widthHalf, 0, -depthHalf));
-
-          // Shift back attachments proportionally along Y to maintain relative height on cushion - problem
-          // is then the stretching to account for the shape attribute (angled cushion sides) has to be dynamically
-          // recalculated based on attachment height
-          // api.scene.setAll({ name: 'Stretch_Offset_Y', plug: 'Transform', property: 'translation' }, new THREE.Vector3(0, lengthHalf/2, 0));
-        }
-
-        // Shear_Offsets only apply for ties on the bottom box cushion, not the bottom puffy cushion since
-        // it does not have angled variants. The configurator sets the shear offsets to 0 when selecting the
-        // bottom puffy cushion, but when switching back to 'Bottom', we need to make sure the offsets are
-        // re-applied for the current pillow shape. We manually force this below.
-        // Likewise, displacement and stretching of the elastic attachment is performed separately for Back
-        // vs Back (Angled) cushions, so need to re-execute the appropriate Shape actions when switching to these
-        // cushion types
-        if (changedName === 'Pillow Type') {
-          if (config['Pillow Type'] === 'Bottom' || config['Pillow Type'] === 'Back') {
-            api.configuration.executeAttribute('Shape', config['Shape']);
-          }
-          else if (config['Pillow Type'] === 'Back (Angled)') {
-            api.configuration.executeAttribute('Shape (Angled Back)', config['Shape (Angled Back)']);
-          }
-        }
-
+      api.on('configurationChange', function (ev) {
         // update add-to-cart form
-        console.log(api.configuration.getAttributes());
-        console.log(config);
-        self._updateFormFields(config, self.configMap, self.configType, dimensions);
+        self._updateFormFields(api.configuration.getConfiguration(), self.configMap, self.configType, dimensions);
       });
-
-
     },
 
     _createConfigType: function createConfigType(claraConfig) {
