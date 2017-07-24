@@ -1,7 +1,7 @@
 var config = {
     paths: {
         "claraplayer":  "https://clara.io/js/claraplayer.min",
-        "cillowreact":  "js/main.d123122c",
+        "cillowreact":  "js/main",
     },
     shim: {
         "claraplayer": {
