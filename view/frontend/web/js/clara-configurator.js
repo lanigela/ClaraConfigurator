@@ -54,9 +54,9 @@ define([
 
       var dimensions = ['Height', 'Width (A)', 'Depth'];
 
-      api.on('configurationChange', function (ev) {
+      clara.on('configurationChange', function (ev) {
         // update add-to-cart form
-        self._updateFormFields(api.configuration.getConfiguration(), self.configMap, self.configType, dimensions);
+        self._updateFormFields(clara.configuration.getConfiguration(), self.configMap, self.configType, dimensions);
       });
     },
 
