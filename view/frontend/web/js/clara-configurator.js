@@ -35,11 +35,10 @@ define([
 
     _create: function create() {
       // init react app
-      require(["cillowreact"]);
-
-
-      // setup configurator
-      this._setupConfigurator(window.clara.api);
+      require(["cillowreact"], function (){
+        // setup configurator
+        this._setupConfigurator(window.clara.api);
+      });
 
       console.log(this.options.optionConfig);
     },
