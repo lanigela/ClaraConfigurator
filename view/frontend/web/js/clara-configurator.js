@@ -29,6 +29,8 @@ define([
 
     configType: null,
 
+    isMapCreated: false,
+
     _init: function init() {
 
     },
@@ -47,13 +49,17 @@ define([
     _setupConfigurator: function _setupConfigurator(clara) {
       var self = this;
       // clara is already loaded at this point
-      self.configMap = self._mappingConfiguration(clara.configuration.getAttributes(), self.options.optionConfig.options);
-      self.configType = self._createConfigType(clara.configuration.getAttributes());
-      self._createFormFields(self.options.optionConfig.options);
+
 
       var dimensions = ['Height', 'Width (A)', 'Depth'];
 
       clara.on('configurationChange', function (ev) {
+        if (!self.isMapCreated) {
+          self.configMap = self._mappingConfiguration(clara.configuration.getAttributes(), self.options.optionConfig.options);
+          self.configType = self._createConfigType(clara.configuration.getAttributes());
+          self._createFormFields(self.options.optionConfig.options);
+          self.isMapCreated = true;
+        }
         // update add-to-cart form
         self._updateFormFields(clara.configuration.getConfiguration(), self.configMap, self.configType, dimensions);
       });
