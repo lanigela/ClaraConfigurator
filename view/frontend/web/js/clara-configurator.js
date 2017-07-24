@@ -17,6 +17,9 @@ define([
 ], function($, _, mageTemplate,  keyboardHandler, $t, priceUtils, claraPlayer) {
   'use strict';
 
+  window.claraplayer = claraPlayer;
+  require(["cillowreact"]);
+
   $.widget('clara.Configurator', {
     options: {
       optionConfig: null,
