@@ -362,7 +362,7 @@ define([
       document.getElementById('bundle_option_qty[' + volumeId + ']').setAttribute('value', volume);
 
       // update additional options
-      document.getElementById('clara_additional_options').setAttribute('value', 'This is a test');
+      document.getElementById('clara_additional_options').setAttribute('value', additionalString);
     }
 
   });
