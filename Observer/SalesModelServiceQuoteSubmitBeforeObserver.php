@@ -44,12 +44,17 @@ class SalesModelServiceQuoteSubmitBeforeObserver implements ObserverInterface
                         if($additionalOptionsOrder = $orderItem->getProductOptionByCode('additional_options')){
                             if(is_array($additionalOptionsQuote)) {
                                 $additionalOptions = array_merge($additionalOptionsQuote, $additionalOptionsOrder);
+                                $this->_logger->debug("additionalOptionsQuote is an array");
+                            }
+                            else{
+                                $this->_logger->debug("additionalOptionsQuote not an array");
                             }
                         }
                         else{
+                            $this->_logger->debug("product has no additional option");
                             $additionalOptions = $additionalOptionsQuote;
                         }
-
+                        $this->_logger->debug('additionalOptions count='.count($additionalOptions));
                         if(count($additionalOptions) > 0){
                             $options = $orderItem->getProductOptions();
                             $options['additional_options'] = unserialize($additionalOptions->getValue());
