@@ -360,7 +360,7 @@ define([
           else {
             console.warn("Don't know how to print " + attr);
           }
-          additionalString = additionalString + attr + ": " + optionString + "\r\n";
+          additionalString = additionalString + attr + ": " + optionString + "\n";
         }
         else {
           console.warn(attr + " not found in config map");
