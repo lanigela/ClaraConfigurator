@@ -374,7 +374,7 @@ define([
       document.getElementById('bundle_option_qty[' + volumeId + ']').setAttribute('value', volume);
 
       // update additional options
-      document.getElementById('clara_additional_options').setAttribute('value', additionalString);
+      document.getElementById('clara_additional_options').setAttribute('value', "An invoice is a record of the receipt of payment for an order. Creating an invoice for an order converts the temporary sales order into a permanent record of the order, which cannot be canceled. A new invoice page looks similar to a completed order page, with some additional fields that can be edited. Every activity that is related to an order is noted in the Comments section of the invoice.");
     }
 
   });
