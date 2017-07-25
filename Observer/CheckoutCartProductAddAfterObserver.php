@@ -58,7 +58,7 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
         }
         else {
             $additionalOptions[] = [
-                    'label' => 'Option',
+                    'label' => 'Option(s)',
                     'value' => $post
                 ];
         }
