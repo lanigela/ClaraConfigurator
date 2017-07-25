@@ -66,6 +66,7 @@ define([
 
       clara.on('configurationChange', function (ev) {
         if (!self.isMapCreated) {
+          self.additionalOptions = [];
           self.configMap = self._mappingConfiguration(clara.configuration.getAttributes(), self.options.optionConfig.options, self.additionalOptions);
           self.configType = self._createConfigType(clara.configuration.getAttributes());
           self._createFormFields(self.options.optionConfig.options, self.additionalOptions.length);
@@ -128,7 +129,6 @@ define([
       };
       claraCon.push(volumePrice);
 
-      additionalOptions = [];
       var map = this._reverseMapping(magentoCon, magentoKey, claraCon, claraKey, additionalOptions);
       if (!map) {
         console.error("Auto mapping clara configuration with magento failed");
