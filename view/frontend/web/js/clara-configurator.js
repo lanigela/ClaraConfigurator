@@ -209,7 +209,7 @@ define([
             }
             else{
               // this is a leaf node, copy price info into it
-              mappedValue.set('prices', primary[pKey][prices]);
+              mappedValue.set('prices', primary[pKey]['prices']);
             }
             map.set(targetValue, mappedValue);
             foundMatching = true;
