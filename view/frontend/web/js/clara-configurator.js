@@ -66,9 +66,9 @@ define([
 
       clara.on('configurationChange', function (ev) {
         if (!self.isMapCreated) {
-          self.configMap = self._mappingConfiguration(clara.configuration.getAttributes(), self.options.optionConfig.options);
+          self.configMap = self._mappingConfiguration(clara.configuration.getAttributes(), self.options.optionConfig.options, self.additionalOptions);
           self.configType = self._createConfigType(clara.configuration.getAttributes());
-          self._createFormFields(self.options.optionConfig.options);
+          self._createFormFields(self.options.optionConfig.options, self.additionalOptions.length);
           self.isMapCreated = true;
         }
         // update add-to-cart form
@@ -100,7 +100,7 @@ define([
     * Name and title are unique
     * Make sure it's an one-to-one mapping, otherwise report error
     */
-    _mappingConfiguration: function mappingConfiguration(claraCon, magentoCon) {
+    _mappingConfiguration: function mappingConfiguration(claraCon, magentoCon, additionalOptions) {
       var claraKey = new Map();
       var claraSelectionKey = new Map();
       claraSelectionKey.set('keyInParent', 'values');
@@ -128,14 +128,14 @@ define([
       };
       claraCon.push(volumePrice);
 
-      this.additionalOptions = [];
-      var map = this._reverseMapping(magentoCon, magentoKey, claraCon, claraKey, this.additionalOptions);
+      additionalOptions = [];
+      var map = this._reverseMapping(magentoCon, magentoKey, claraCon, claraKey, additionalOptions);
       if (!map) {
         console.error("Auto mapping clara configuration with magento failed");
         return null;
       }
       console.log(map);
-      console.log(this.additionalOptions);
+      console.log(additionalOptions);
 
       return map;
     },
@@ -237,7 +237,7 @@ define([
 
 
     // add invisible input to product_addtocart_form
-    _createFormFields(options) {
+    _createFormFields(options, additionalOptionsCount) {
       // locate the form div
       var wrapper = document.getElementById('clara-form-configurations-wrapper');
       if (!wrapper) {
@@ -275,12 +275,15 @@ define([
         formFields.appendChild(optionQtyEI)
       }
       // additional options
-      var addEI = document.createElement('input');
-      addEI.setAttribute('name', 'clara_additional_options');
-      addEI.setAttribute('id', 'clara_additional_options');
-      addEI.setAttribute('value', '');
-      addEI.setAttribute('type','hidden');
-      formFields.appendChild(addEI);
+      for (var i = 0; i < additionalOptions; i++) {
+        var addEI = document.createElement('input');
+        addEI.setAttribute('name', 'clara_additional_options');
+        addEI.setAttribute('id', 'clara_additional_options' + i);
+        addEI.setAttribute('value', '');
+        addEI.setAttribute('type','hidden');
+        formFields.appendChild(addEI);
+      }
+
 
       wrapper.appendChild(formFields);
       console.log("done");
@@ -299,7 +302,7 @@ define([
     */
     _updateFormFields: function updateFormFields(config, map, configType, additionalOptions, dimensions) {
       var volume = 1;
-      var additionalString = "";
+      var additionalArray = [];
       for (var attr in config) {
         if (map.has(attr)) {
           var attrId = map.get(attr).get('key');
@@ -360,7 +363,7 @@ define([
           else {
             console.warn("Don't know how to print " + attr);
           }
-          additionalString = additionalString + attr + ": " + optionString + "\n";
+          additionalArray.push(attr + ": " + optionString);
         }
         else {
           console.warn(attr + " not found in config map");
@@ -374,7 +377,10 @@ define([
       document.getElementById('bundle_option_qty[' + volumeId + ']').setAttribute('value', volume);
 
       // update additional options
-      document.getElementById('clara_additional_options').setAttribute('value', "An invoice is a record of the receipt of payment for an order. Creating an invoice for an order converts the temporary sales order into a permanent record of the order, which cannot be canceled. A new invoice page looks similar to a completed order page, with some additional fields that can be edited. Every activity that is related to an order is noted in the Comments section of the invoice.");
+      for (var i = 0; i < additionalArray.length; i++) {
+        document.getElementById('clara_additional_options' + i).setAttribute('value', additionalArray[i]);
+      }
+
     }
 
   });
