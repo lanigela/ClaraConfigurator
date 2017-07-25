@@ -376,6 +376,7 @@ define([
         }
       }
       // update volume price
+      volume = volume / 10;
       var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
       var volumeId = map.get('Volume_Price').get('id');
       var volumeOptionId = map.get('Volume_Price').get('options').get(materialPrice).get('id');
@@ -405,7 +406,7 @@ define([
       }
 
       if (window.clara.updatePrice) {
-        window.clara.updatePrice(result);
+        window.clara.updatePrice(result.toFixed(2));
       }
     }
 
