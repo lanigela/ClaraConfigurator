@@ -182,7 +182,7 @@ define([
             // find a match
             valueHasMapped.set(targetValue, true);
             var mappedValue = new Map();
-            mappedValue.set('key', pKey);
+            mappedValue.set('id', pKey);
             // recursively map nested object until primaryKey and targetKey have no 'nested' key
             if (primaryKey.has('nested') && targetKey.has('nested')) {
               var childMap = null;
@@ -202,8 +202,9 @@ define([
               var nestedMap = reverseMapping(primary[pKey][primaryKey.get('nested').get('keyInParent')],
                                                primaryKey.get('nested'),
                                                childMap,
-                                               targetKey.get('nested'));
-              mappedValue.set(targetKey.get('nested').get('keyInParent'), nestedMap);
+                                               targetKey.get('nested'),
+                                               null);
+              mappedValue.set('options', nestedMap);
             }
             map.set(targetValue, mappedValue);
             foundMatching = true;
@@ -216,14 +217,16 @@ define([
       }
 
       // check all target to see if all target value has been mapped
-      for (var tKey in target) {
-        var targetValue = targetKey.get('type') === 'object' ? target[tKey][targetKey.get('key')] : target[tKey];
-        if (!valueHasMapped.has(targetValue)) {
-          if (targetKey.has('nested')) {
-            optionsNotFound.push(targetValue);
-          }
-          else {
-            console.warn("Target value " + targetValue + " has not been mapped!");
+      if (optionsNotFound) {
+        for (var tKey in target) {
+          var targetValue = targetKey.get('type') === 'object' ? target[tKey][targetKey.get('key')] : target[tKey];
+          if (!valueHasMapped.has(targetValue)) {
+            if (targetKey.has('nested')) {
+              optionsNotFound.push(targetValue);
+            }
+            else {
+              console.warn("Target value " + targetValue + " has not been mapped!");
+            }
           }
         }
       }
@@ -303,14 +306,14 @@ define([
       var additionalObj = {};
       for (var attr in config) {
         if (map.has(attr)) {
-          var attrId = map.get(attr).get('key');
+          var attrId = map.get(attr).get('id');
           switch (configType.get(attr)) {
             case 'Number':
               // update number
               if (dimensions.includes(attr)) {
                 volume = config[attr] * volume;
               }
-              var attrValue = map.get(attr).get('values').get(attr).get('key');
+              var attrValue = map.get(attr).get('options').get(attr).get('id');
               document.getElementById('bundle_option[' + attrId + ']').setAttribute('value', attrValue);
               document.getElementById('bundle_option_qty[' + attrId + ']').setAttribute('value', config[attr]);
               break;
@@ -323,13 +326,13 @@ define([
               }
               // sometimes config[attr] is an obj...
               var configString = typeof config[attr] == 'string' ? config[attr] : config[attr].value;
-              var attrValue = map.get(attr).get('values').get(configString).get('key');
+              var attrValue = map.get(attr).get('options').get(configString).get('id');
               document.getElementById('bundle_option[' + attrId + ']').setAttribute('value', attrValue);
               document.getElementById('bundle_option_qty[' + attrId + ']').setAttribute('value', '1');
               break;
             case 'Boolean':
               // update boolean
-              var attrValue = map.get(attr).get('values').get(config[attr].toString()).get('key');
+              var attrValue = map.get(attr).get('options').get(config[attr].toString()).get('id');
               document.getElementById('bundle_option[' + attrId + ']').setAttribute('value', attrValue);
               document.getElementById('bundle_option_qty[' + attrId + ']').setAttribute('value', '1');
               break;
@@ -369,8 +372,8 @@ define([
       }
       // update volume price
       var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
-      var volumeId = map.get('Volume_Price').get('key');
-      var volumeValue = map.get('Volume_Price').get('values').get(materialPrice).get('key');
+      var volumeId = map.get('Volume_Price').get('id');
+      var volumeValue = map.get('Volume_Price').get('options').get(materialPrice).get('id');
       document.getElementById('bundle_option[' + volumeId + ']').setAttribute('value', volumeValue);
       document.getElementById('bundle_option_qty[' + volumeId + ']').setAttribute('value', volume);
 
