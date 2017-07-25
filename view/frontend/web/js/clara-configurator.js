@@ -342,7 +342,9 @@ define([
           }
           else if (typeof config[attr] == 'object') {
             for (var key in config[attr]) {
-              optionString = optionString + key + ": " + config[attr][key] + " ";
+              if (config[attr].hasOwnProperty(key)) {
+                optionString = optionString + key + ": " + config[attr][key] + " ";
+              }
             }
           }
           else {
