@@ -55,12 +55,12 @@ class SalesModelServiceQuoteSubmitBeforeObserver implements ObserverInterface
                             $additionalOptions = $additionalOptionsQuote;
                         }
                         $this->_logger->debug('additionalOptions count='.count($additionalOptions));
-                        if(count($additionalOptions) > 0){
-                            $this->_logger->debug($additionalOptions);
+                        if (count($additionalOptions) > 0) {
                             $this->_logger->debug($additionalOptions->getValue());
-                            $this->_logger->debug(unserialize($additionalOptions->getValue()));
+                            $unserializedOption = unserialize($additionalOptions->getValue());
+                            $this->_logger->debug($unserializedOption);
                             $options = $orderItem->getProductOptions();
-                            $options['additional_options'] = unserialize($additionalOptions->getValue());
+                            $options['additional_options'] = $unserializedOption;
                             $orderItem->setProductOptions($options);
                         }
 
