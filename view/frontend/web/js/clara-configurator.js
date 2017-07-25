@@ -399,7 +399,7 @@ define([
         if (map.has(key)) {
           var optionMap = map.get(key).get('options');
           if (optionMap.has(config[key])) {
-            result += map.get(key).get(config[key]).get('prices')['finalPrice']['amout'];
+            result += map.get(key).get('options').get(config[key]).get('prices')['finalPrice']['amout'];
           }
         }
       }
