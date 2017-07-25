@@ -391,7 +391,7 @@ define([
     _updatePrice: function updatePrice(config, map, volume) {
       // volume price based on material
       var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
-      var unitPrice = map.get('Volume_Price').get('options').get(materialPrice).get('prices')['finalPrice']['amout'];
+      var unitPrice = map.get('Volume_Price').get('options').get(materialPrice).get('prices')['finalPrice']['amount'];
       var result = volume ? volume * unitPrice : 0;
       console.log("unit price = " + unitPrice);
 
@@ -399,7 +399,7 @@ define([
         if (map.has(key)) {
           var optionMap = map.get(key).get('options');
           if (optionMap.has(config[key])) {
-            result += map.get(key).get('options').get(config[key]).get('prices')['finalPrice']['amout'];
+            result += map.get(key).get('options').get(config[key]).get('prices')['finalPrice']['amount'];
           }
         }
       }
