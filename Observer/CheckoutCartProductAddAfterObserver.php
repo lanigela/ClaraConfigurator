@@ -47,8 +47,8 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
         $decodePost = json_decode($post, true);
         $this->_logger->debug('Decoded='.$decodePost);
 
-        if(is_array($post)){
-            foreach($post as $key => $value){
+        if(is_array($decodePost)){
+            foreach($decodePost as $key => $value){
                 if($key == '' || $value == ''){
                     continue;
                 }
@@ -62,7 +62,7 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
         else {
             $additionalOptions[] = [
                     'label' => 'Option(s)',
-                    'value' => $post
+                    'value' => $decodePost
                 ];
         }
 

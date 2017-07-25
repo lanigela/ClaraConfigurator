@@ -69,7 +69,7 @@ define([
           self.additionalOptions = [];
           self.configMap = self._mappingConfiguration(clara.configuration.getAttributes(), self.options.optionConfig.options, self.additionalOptions);
           self.configType = self._createConfigType(clara.configuration.getAttributes());
-          self._createFormFields(self.options.optionConfig.options, self.additionalOptions.length);
+          self._createFormFields(self.options.optionConfig.options);
           self.isMapCreated = true;
         }
         // update add-to-cart form
@@ -237,7 +237,7 @@ define([
 
 
     // add invisible input to product_addtocart_form
-    _createFormFields(options, additionalOptionsCount) {
+    _createFormFields(options) {
       // locate the form div
       var wrapper = document.getElementById('clara-form-configurations-wrapper');
       if (!wrapper) {
@@ -275,14 +275,12 @@ define([
         formFields.appendChild(optionQtyEI)
       }
       // additional options
-      for (var i = 0; i < additionalOptionsCount; i++) {
-        var addEI = document.createElement('input');
-        addEI.setAttribute('name', 'clara_additional_options');
-        addEI.setAttribute('id', 'clara_additional_options' + i);
-        addEI.setAttribute('value', '');
-        addEI.setAttribute('type','hidden');
-        formFields.appendChild(addEI);
-      }
+      var addEI = document.createElement('input');
+      addEI.setAttribute('name', 'clara_additional_options');
+      addEI.setAttribute('id', 'clara_additional_options');
+      addEI.setAttribute('value', '');
+      addEI.setAttribute('type','hidden');
+      formFields.appendChild(addEI);
 
 
       wrapper.appendChild(formFields);
@@ -302,7 +300,7 @@ define([
     */
     _updateFormFields: function updateFormFields(config, map, configType, additionalOptions, dimensions) {
       var volume = 1;
-      var additionalArray = [];
+      var additionalObj = {};
       for (var attr in config) {
         if (map.has(attr)) {
           var attrId = map.get(attr).get('key');
@@ -363,7 +361,7 @@ define([
           else {
             console.warn("Don't know how to print " + attr);
           }
-          additionalArray.push(attr + ": " + optionString);
+          additionalObj[attr] = optionString;
         }
         else {
           console.warn(attr + " not found in config map");
@@ -377,10 +375,7 @@ define([
       document.getElementById('bundle_option_qty[' + volumeId + ']').setAttribute('value', volume);
 
       // update additional options
-      for (var i = 0; i < additionalArray.length; i++) {
-        document.getElementById('clara_additional_options' + i).setAttribute('value', additionalArray[i]);
-      }
-
+      document.getElementById('clara_additional_options').setAttribute('value', JSON.stringify(additionalObj));
     }
 
   });
