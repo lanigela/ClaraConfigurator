@@ -290,7 +290,13 @@ define([
       return !isNaN(parseFloat(n)) && isFinite(n);
     },
 
-    // update form fields when configuration change
+    /* update form fields when configuration change
+    * @param config               : current configuration from clara
+    * @param map                  : options affecting price are saved in map, alone with their id in magento
+    * @param configType           : type of option, can be Number, Options, Boolean or Color
+    * @param additionalOptions    : options not affecting price will be saved as text in additional options
+    * @param dimensions           : labels in dimensions are used to calculate volume price
+    */
     _updateFormFields: function updateFormFields(config, map, configType, additionalOptions, dimensions) {
       var volume = 1;
       var additionalString = "";
@@ -327,6 +333,7 @@ define([
               document.getElementById('bundle_option_qty[' + attrId + ']').setAttribute('value', '1');
               break;
             case 'Color':
+              // color will be treated as additional option
               break;
           }
 
@@ -338,6 +345,9 @@ define([
             optionString = config[attr];
           }
           else if (typeof config[attr] == 'number') {
+            if (dimensions.includes(attr)) {
+                volume = config[attr] * volume;
+            }
             optionString = config[attr].toString();
           }
           else if (typeof config[attr] == 'object') {
