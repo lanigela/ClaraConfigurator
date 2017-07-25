@@ -275,7 +275,7 @@ define([
         formFields.appendChild(optionQtyEI)
       }
       // additional options
-      for (var i = 0; i < additionalOptions; i++) {
+      for (var i = 0; i < additionalOptionsCount; i++) {
         var addEI = document.createElement('input');
         addEI.setAttribute('name', 'clara_additional_options');
         addEI.setAttribute('id', 'clara_additional_options' + i);
