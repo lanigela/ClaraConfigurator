@@ -21,8 +21,7 @@ define([
 
   $.widget('clara.Configurator', {
     options: {
-      optionConfig: null,
-      claraUUID: ''
+      optionConfig: null
     },
 
     /*

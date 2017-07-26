@@ -41,7 +41,7 @@ class LayoutLoadBeforeObserver implements ObserverInterface
             $product = $this->_registry->registry('current_product');
             if ($product) {
                 $attr = $product->getData('threekit');
-                if($attr) {
+                if ($attr && !strcmp($attr, '1')) {
                     $layout = $observer->getData('layout');
 
                     $update = $layout->getUpdate();
