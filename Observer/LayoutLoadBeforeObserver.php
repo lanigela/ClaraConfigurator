@@ -40,8 +40,8 @@ class LayoutLoadBeforeObserver implements ObserverInterface
             /* @var $product \Magento\Catalog\Model\Product */
             $product = $this->_registry->registry('current_product');
             if ($product) {
-                $attr = $product->getData('clarauuid');
-                if($attr && strcmp($attr, '')) {
+                $attr = $product->getData('threekit');
+                if($attr && !strcmp($attr, 'enable')) {
                     $layout = $observer->getData('layout');
 
                     $update = $layout->getUpdate();
