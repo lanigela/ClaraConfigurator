@@ -49,7 +49,7 @@ define([
 
     _create: function create() {
       console.log(this.options.submitUrl);
-      console.log(this.options.priductId);
+      console.log(this.options.productId);
       console.log("FormKey = " + $.cookie('form_key'));
       var self = this;
       // init react app
