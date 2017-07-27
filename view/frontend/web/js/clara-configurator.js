@@ -21,7 +21,9 @@ define([
 
   $.widget('clara.Configurator', {
     options: {
-      optionConfig: null
+      optionConfig: null,
+      submitUrl: null,
+      productId: null
     },
 
     /*
@@ -46,6 +48,9 @@ define([
     },
 
     _create: function create() {
+      console.log(this.options.submitUrl);
+      console.log(this.options.priductId);
+      console.log("FormKey = " + $.cookie('form_key'));
       var self = this;
       // init react app
       require(["cillowreact"], function (){
