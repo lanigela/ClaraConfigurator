@@ -114,11 +114,6 @@ define([
       var xhr = new XMLHttpRequest();
       xhr.open('POST', self.options.submitUrl);
       xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.onload = function() {
-        if (xhr.status >= 200 && xhr.status < 400) {
-          success(JSON.parse(xhr.responseText));
-        }
-      };
       xhr.send(JSON.stringify(form));
 
 
