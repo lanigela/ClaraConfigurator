@@ -132,10 +132,6 @@ define([
         success: function (res) {
           var eventData, parameters;
 
-          if (self.isLoaderEnabled()) {
-            $('body').trigger(self.options.processStop);
-          }
-
           if (res.backUrl) {
             eventData = {
               'form': form,
