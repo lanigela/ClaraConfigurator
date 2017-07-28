@@ -11,10 +11,11 @@ define([
   'mage/translate',
   'priceUtils',
   'claraplayer',
+  'catalogAddToCart',
   'jquery/ui',
   'jquery/jquery.parsequery',
   'mage/validation/validation'
-], function($, _, mageTemplate,  keyboardHandler, $t, priceUtils, claraPlayer) {
+], function($, _, mageTemplate,  keyboardHandler, $t, priceUtils, claraPlayer, catalogAddToCart) {
   'use strict';
 
   window.claraplayer = claraPlayer;
@@ -48,9 +49,6 @@ define([
     },
 
     _create: function create() {
-      console.log(this.options.submitUrl);
-      console.log(this.options.productId);
-      console.log("FormKey = " + $.cookie('form_key'));
       var self = this;
       // init react app
       require(["cillowreact"], function (){
@@ -64,7 +62,7 @@ define([
     _setupConfigurator: function _setupConfigurator(clara) {
       var self = this;
       // clara is already loaded at this point
-
+      console.log("addToCart="+ catalogAddToCart.submitForm);
 
       var dimensions = ['Height', 'Width (A)', 'Depth'];
 

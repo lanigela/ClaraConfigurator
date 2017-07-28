@@ -13,7 +13,8 @@ var config = {
     },
     map: {
         '*': {
-            clara_configurator:         'Exocortex_ClaraConfigurator/js/clara-configurator'
+            clara_configurator:         'Exocortex_ClaraConfigurator/js/clara-configurator',
+            catalogAddToCart:           'Magento_Catalog/js/catalog-add-to-cart'
         }
     }
 };

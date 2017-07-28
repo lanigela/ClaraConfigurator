@@ -1,0 +1,29 @@
+
+<?php
+/**
+ * Copyright © Exocortex, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var $block Magento\Bundle\Block\Catalog\Product\View\Type\Bundle */ ?>
+<?php
+$product = $block->getProduct();
+?>
+<div class="" data-role="clara-player" id="clara-player" style="height:1000px">
+  <div id="root"></div>
+</div>
+<div data-role="clara-panelControl" id="clara-panelControl"></div>
+<script type="text/x-magento-init">
+  {
+    "[data-role=clara-panelControl]": {
+      "clara_configurator": {
+        "optionConfig"  : <?php /* @escapeNotVerified */ echo $block->getJsonConfig()?>,
+        "submitUrl"     : <?php /* @escapeNotVerified */ echo json_encode($block->getSubmitUrl($product))?>,
+        "productId"     : <?php /* @escapeNotVerified */ echo json_encode($product->getId())?>
+      }
+    }
+  }
+</script>
+<div id="clara-form-configurations-wrapper"></div>
+
+

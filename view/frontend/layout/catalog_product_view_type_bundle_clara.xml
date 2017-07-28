@@ -14,27 +14,11 @@
     <referenceContainer name="content">
       <referenceContainer name="product.info.main" remove="true"/>
 
-      <block class="Magento\Framework\View\Element\Template" name="product.main" template="Exocortex_ClaraConfigurator::ClaraPlayer.phtml"  before="product.info.media"/>
+      <block class="Exocortex\ClaraConfigurator\Block\BundleClaraConfigurator" name="product.info.threekit.configurator" template="Exocortex_ClaraConfigurator::ThreekitConfigurator.phtml" before="product.info.media"/>
 
       <referenceContainer name="product.info.media">
         <referenceBlock name="product.info.media.image" remove="true"/>
       </referenceContainer>
-
-      <container name="product.info.clara" htmlTag="div" htmlClass="product-info-main" before="product.info.details">
-        <block class="Magento\Catalog\Block\Product\View" name="product.info" template="Magento_Catalog::product/view/form.phtml" after="alert.urls">
-          <container name="product.info.form.content" as="product_info_form_content">
-            <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart" as="addtocart" template="Magento_Catalog::product/view/addtocart.phtml"/>
-          </container>
-          <block class="Magento\Framework\View\Element\Template" name="product.info.form.options" as="options_container">
-            <block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper" as="product_options_wrapper" template="Magento_Catalog::product/view/options/wrapper.phtml">
-              <block class="Exocortex\ClaraConfigurator\Block\BundleClaraConfigurator" name="product.info.clara.configurator" as="clara_configurator" template="Exocortex_ClaraConfigurator::catalog/product/view/type/bundle/ClaraConfigurator.phtml"/>
-            </block>
-            <block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="Magento_Catalog::product/view/options/wrapper/bottom.phtml">
-              <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart.additional" as="product.info.addtocart" template="Magento_Catalog::product/view/addtocart.phtml"/>
-            </block>
-          </block>
-        </block>
-      </container>
     </referenceContainer>
   </body>
 </page>
