@@ -113,20 +113,21 @@ define([
       var self = this;
       var xhr = new XMLHttpRequest();
       xhr.open('POST', self.options.submitUrl);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(JSON.stringify(form));
+      xhr.setRequestHeader('Content-Type', 'multipart/form-data');
 
 
-      /*var form_data = new FormData();
+
+      var form_data = new FormData();
 
       for ( var key in form ) {
           form_data.append(key, form[key]);
       }
+      xhr.send(form_data);
 
-      $(self.options.minicartSelector).trigger('contentLoading');*/
+      /*$(self.options.minicartSelector).trigger('contentLoading');
 
 
-      /*$.ajax({
+      $.ajax({
         url: self.options.submitUrl,
         data: form_data,
         type: 'post',
