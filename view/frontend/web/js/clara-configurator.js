@@ -72,8 +72,6 @@ define([
       require(["cillowreact"], function (){
         // setup configurator
         self._setupConfigurator(window.clara.api);
-        self.magentoConfig = self.options.optionConfig;
-        self.claraConfig = window.clara.api.configuration.getAttributes();
       });
 
       console.log(this.options.optionConfig);
@@ -92,6 +90,8 @@ define([
         self.currentConfig = clara.configuration.getConfiguration();
         if (!self.isMapCreated) {
           self.additionalOptions = [];
+          self.magentoConfig = self.options.optionConfig;
+          self.claraConfig = window.clara.api.configuration.getAttributes();
           self.configMap = self._mappingConfiguration();
           self.configType = self._createConfigType();
           //self._createFormFields(self.options.optionConfig.options); >>>>>>>>>>>>>>>>> to be delete
