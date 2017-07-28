@@ -9,7 +9,7 @@
  *
  * @author      Daniel@Exocortex.com
  */
-namespace Exocortex;
+namespace Exocortex\ClaraConfigurator\Block;
 
 class BundleClaraConfigurator
 {
