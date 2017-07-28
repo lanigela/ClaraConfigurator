@@ -42,6 +42,12 @@ define([
     */
     additionalOptions: null,
 
+    /*
+    * Catalog-Add-To-Cart from Magento_Catalog/js/catalog-add-to-cart
+    */
+    addToCartHelper: null,
+
+
     isMapCreated: false,
 
     _init: function init() {
@@ -62,7 +68,10 @@ define([
     _setupConfigurator: function _setupConfigurator(clara) {
       var self = this;
       // clara is already loaded at this point
-      console.log("addToCart="+ catalogAddToCart());
+
+      // create add to cart jquery widget
+      this.addToCartHelper = catalogAddToCart();
+      console.log("addToCart="+ this.addToCartHelper.submitForm();
 
       var dimensions = ['Height', 'Width (A)', 'Depth'];
 
