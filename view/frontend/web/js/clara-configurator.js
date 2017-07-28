@@ -72,8 +72,8 @@ define([
       require(["cillowreact"], function (){
         // setup configurator
         self._setupConfigurator(window.clara.api);
-        this.magentoConfig = this.options.optionConfig;
-        this.claraConfig = window.clara.api.configuration.getAttributes();
+        self.magentoConfig = self.options.optionConfig;
+        self.claraConfig = window.clara.api.configuration.getAttributes();
       });
 
       console.log(this.options.optionConfig);
