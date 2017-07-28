@@ -71,7 +71,7 @@ define([
 
       // create add to cart jquery widget
       this.addToCartHelper = catalogAddToCart();
-      console.log("addToCart="+ this.addToCartHelper.submitForm();
+      console.log("addToCart="+ this.addToCartHelper.submitForm());
 
       var dimensions = ['Height', 'Width (A)', 'Depth'];
 
