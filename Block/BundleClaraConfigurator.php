@@ -24,16 +24,19 @@ class BundleClaraConfigurator extends \Magento\Framework\View\Element\Template
   private $view;
 
   /**
+  * @param \Magento\Catalog\Block\Product\Context
   * @param \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
   * @param \Magento\Catalog\Block\Product\View
   */
   public function __construct(
+    \Magento\Catalog\Block\Product\Context $context,
     \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle $bundle,
     \Magento\Catalog\Block\Product\View $view,
     array $data = [])
   {
     $this->bundle = $bundle;
     $this->view = $view;
+    parent::__construct($context, $data);
   }
 
   public function getJsonConfig()
