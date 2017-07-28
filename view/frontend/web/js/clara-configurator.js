@@ -125,7 +125,8 @@ define([
         url: self.options.submitUrl,
         data: form_data,
         type: 'post',
-        dataType: 'json',
+        processData: false,
+        contentType: false,
 
         /** @inheritdoc */
         success: function (res) {
