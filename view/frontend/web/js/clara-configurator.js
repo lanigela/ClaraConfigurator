@@ -112,11 +112,18 @@ define([
     _submitForm: function (form) {
       var self = this;
 
+      var form_data = new FormData();
+
+      for ( var key in form ) {
+          form_data.append(key, form[key]);
+      }
+
       $(self.options.minicartSelector).trigger('contentLoading');
+
 
       $.ajax({
         url: self.options.submitUrl,
-        data: JSON.stringify(form),
+        data: form_data,
         type: 'post',
         dataType: 'json',
 
