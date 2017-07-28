@@ -291,7 +291,7 @@ define([
                 case 'Color':
                   break;
               }
-              var nestedMap = _reverseMapping(primary[pKey][primaryKey.get('nested').get('keyInParent')],
+              var nestedMap = this._reverseMapping(primary[pKey][primaryKey.get('nested').get('keyInParent')],
                                                primaryKey.get('nested'),
                                                childMap,
                                                targetKey.get('nested'),
