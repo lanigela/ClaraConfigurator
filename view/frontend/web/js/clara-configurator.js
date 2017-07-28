@@ -72,10 +72,9 @@ define([
       require(["cillowreact"], function (){
         // setup configurator
         self._setupConfigurator(window.clara.api);
+        this.magentoConfig = this.options.optionConfig;
+        this.claraConfig = window.clara.api.configuration.getAttributes();
       });
-
-      this.magentoConfig = this.options.optionConfig;
-      this.claraConfig = window.clara.api.configuration.getAttributes();
 
       console.log(this.options.optionConfig);
     },
@@ -104,7 +103,7 @@ define([
       });
 
       // setup addToCartHandle
-      window.clara.setAddToCartHandle = function() {
+      window.clara.AddToCartHandle = function() {
         var jsForm = self._generatePostData();
         self._submitForm(jsForm);
       };
