@@ -11,7 +11,7 @@
  */
 namespace Exocortex\ClaraConfigurator\Block;
 
-class BundleClaraConfigurator
+class BundleClaraConfigurator extends \Magento\Framework\View\Element\Template
 {
   /**
   * @param \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
