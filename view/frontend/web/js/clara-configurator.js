@@ -90,7 +90,7 @@ define([
         self.currentConfig = clara.configuration.getConfiguration();
         if (!self.isMapCreated) {
           self.additionalOptions = [];
-          self.magentoConfig = self.options.optionConfig;
+          self.magentoConfig = self.options.optionConfig.options;
           self.claraConfig = window.clara.api.configuration.getAttributes();
           self.configMap = self._mappingConfiguration();
           self.configType = self._createConfigType();
