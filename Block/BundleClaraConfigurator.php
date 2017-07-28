@@ -11,7 +11,7 @@
  */
 namespace Exocortex\ClaraConfigurator\Block;
 
-class BundleClaraConfigurator extends \Magento\Framework\View\Element\Template
+class BundleClaraConfigurator extends \Magento\Catalog\Block\Product\View\AbstractView
 {
   /**
   * @param \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
@@ -25,18 +25,20 @@ class BundleClaraConfigurator extends \Magento\Framework\View\Element\Template
 
   /**
   * @param \Magento\Catalog\Block\Product\Context
+  * @param \Magento\Framework\Stdlib\ArrayUtils
   * @param \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
   * @param \Magento\Catalog\Block\Product\View
   */
   public function __construct(
     \Magento\Catalog\Block\Product\Context $context,
+    \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
     \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle $bundle,
     \Magento\Catalog\Block\Product\View $view,
     array $data = [])
   {
     $this->bundle = $bundle;
     $this->view = $view;
-    parent::__construct($context, $data);
+    parent::__construct($context, $arrayUtils, $data);
   }
 
   public function getJsonConfig()
