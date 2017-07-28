@@ -62,7 +62,7 @@ define([
     _setupConfigurator: function _setupConfigurator(clara) {
       var self = this;
       // clara is already loaded at this point
-      console.log("addToCart="+ catalogAddToCart.submitForm);
+      console.log("addToCart="+ catalogAddToCart);
 
       var dimensions = ['Height', 'Width (A)', 'Depth'];
 
