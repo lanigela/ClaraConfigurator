@@ -111,17 +111,27 @@ define([
 
     _submitForm: function (form) {
       var self = this;
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', self.options.submitUrl);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 400) {
+          success(JSON.parse(xhr.responseText));
+        }
+      };
+      xhr.send(JSON.stringify(form));
 
-      var form_data = new FormData();
+
+      /*var form_data = new FormData();
 
       for ( var key in form ) {
           form_data.append(key, form[key]);
       }
 
-      $(self.options.minicartSelector).trigger('contentLoading');
+      $(self.options.minicartSelector).trigger('contentLoading');*/
 
 
-      $.ajax({
+      /*$.ajax({
         url: self.options.submitUrl,
         data: form_data,
         type: 'post',
@@ -129,7 +139,7 @@ define([
         contentType: false,
 
         /** @inheritdoc */
-        success: function (res) {
+        /*success: function (res) {
           var eventData, parameters;
 
           if (res.backUrl) {
@@ -167,7 +177,7 @@ define([
             .html(res.product.statusText);
           }
         }
-      });
+      });*/
     },
 
     _createConfigType: function () {
