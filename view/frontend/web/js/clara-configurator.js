@@ -112,7 +112,7 @@ define([
     _submitForm: function (form) {
       var self = this;
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', self.options.submitUrl);
+      xhr.open('POST', self.options.submitUrl, false);
       xhr.setRequestHeader('Content-Type', 'multipart/form-data');
 
 
