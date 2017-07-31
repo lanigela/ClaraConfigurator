@@ -132,12 +132,13 @@ define([
 
       $.ajax({
         url: self.options.submitUrl,
-        data: JSON.stringify(form),
+        data: postParams,
         type: 'post',
-        contentType: 'json',
+        contentType: 'application/x-www-form-urlencoded',
 
         /** @inheritdoc */
         success: function (res) {
+          console.log(res);
           var eventData, parameters;
 
           if (res.backUrl) {
