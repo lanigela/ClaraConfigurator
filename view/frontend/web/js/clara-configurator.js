@@ -132,9 +132,9 @@ define([
 
       $.ajax({
         url: self.options.submitUrl,
-        data: form,
+        data: JSON.stringify(form),
         type: 'post',
-        contentType: 'application/json',
+        contentType: 'json',
 
         /** @inheritdoc */
         success: function (res) {
