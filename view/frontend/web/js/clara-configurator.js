@@ -73,7 +73,6 @@ define([
         // setup configurator
         self._setupConfigurator(window.clara.api);
       });
-      console.log(this.options.submitUrl);
       console.log(this.options.optionConfig);
     },
 
@@ -112,7 +111,8 @@ define([
     _submitForm: function (form) {
       var self = this;
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', self.options.submitUrl, false);
+      console.log(self.options.submitUrl);
+      xhr.open('POST', self.options.submitUrl);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
 
