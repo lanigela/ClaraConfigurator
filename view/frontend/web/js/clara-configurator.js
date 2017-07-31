@@ -73,7 +73,7 @@ define([
         // setup configurator
         self._setupConfigurator(window.clara.api);
       });
-
+      console.log(this.options.submitUrl);
       console.log(this.options.optionConfig);
     },
 
