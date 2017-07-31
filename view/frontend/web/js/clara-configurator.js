@@ -93,6 +93,7 @@ define([
           self.claraConfig = window.clara.api.configuration.getAttributes();
           self.configMap = self._mappingConfiguration();
           self.configType = self._createConfigType();
+          self._generatePostData();
           //self._createFormFields(self.options.optionConfig.options); >>>>>>>>>>>>>>>>> to be delete
           self.isMapCreated = true;
         }
