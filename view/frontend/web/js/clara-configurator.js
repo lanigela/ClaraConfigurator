@@ -73,7 +73,6 @@ define([
         // setup configurator
         self._setupConfigurator(window.clara.api);
       });
-      console.log(this.options.optionConfig);
     },
 
     _setupConfigurator: function (clara) {
@@ -111,21 +110,10 @@ define([
 
     _submitForm: function (form) {
       var self = this;
-      /*var xhr = new XMLHttpRequest();
-      console.log(self.options.submitUrl);
-      xhr.open('POST', self.options.submitUrl);
-      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-
-
-      var form_data = new FormData();
-
-      for ( var key in form ) {
-          form_data.append(key, form[key]);
-      }
-      xhr.send(form_data);*/
-
+      // update minicart
       $(self.options.minicartSelector).trigger('contentLoading');
+
       const postParams = Object.keys(form).map((key) => {
         return encodeURIComponent(key) + '=' + encodeURIComponent(form[key]);
       }).join('&');
@@ -139,7 +127,6 @@ define([
 
         /** @inheritdoc */
         success: function (res) {
-          console.log(res);
           var eventData, parameters;
 
           if (res.backUrl) {
@@ -445,155 +432,10 @@ define([
       return result;
     },
 
-
-    /*// add invisible input to product_addtocart_form
-    _createFormFields(options) {
-      // locate the form div
-      var wrapper = document.getElementById('clara-form-configurations-wrapper');
-      if (!wrapper) {
-        console.error("Can not find clara configuration wrapper");
-        return;
-      }
-      // check if the fields are already created
-      if (wrapper.hasChildNodes()) {
-        console.warn("Form fields already exist");
-        return;
-      }
-
-      // insert input fields
-      console.log("Making custom configurator...");
-      var formFields = document.createElement('div');
-      var optionCounter=1;
-      var selectionCounter=1;
-      for(var key in options) {
-        // add div
-        var optionEI = document.createElement('input');
-        var optionQtyEI = document.createElement('input');
-
-        // set option name and leave default value empty
-        optionEI.setAttribute('name', 'bundle_option[' + key + ']');
-        optionEI.setAttribute('id', 'bundle_option[' + key + ']');
-        optionEI.setAttribute('value', '');
-        optionEI.setAttribute('type','hidden');
-        // set option quantity
-        optionQtyEI.setAttribute('name', 'bundle_option_qty[' + key + ']');
-        optionQtyEI.setAttribute('id', 'bundle_option_qty[' + key + ']');
-        optionQtyEI.setAttribute('value', '');
-        optionQtyEI.setAttribute('type', 'hidden');
-        // append to form
-        formFields.appendChild(optionEI);
-        formFields.appendChild(optionQtyEI)
-      }
-      // additional options
-      var addEI = document.createElement('input');
-      addEI.setAttribute('name', 'clara_additional_options');
-      addEI.setAttribute('id', 'clara_additional_options');
-      addEI.setAttribute('value', '');
-      addEI.setAttribute('type','hidden');
-      formFields.appendChild(addEI);
-
-
-      wrapper.appendChild(formFields);
-      console.log("done");
-    },*/
-
     _isNumber: function (n) {
       return !isNaN(parseFloat(n)) && isFinite(n);
     },
 
-    /* update form fields when configuration change
-    * @param config               : current configuration from clara
-    * @param map                  : options affecting price are saved in map, alone with their id in magento
-    * @param configType           : type of option, can be Number, Options, Boolean or Color
-    * @param additionalOptions    : options not affecting price will be saved as text in additional options
-    * @param dimensions           : labels in dimensions are used to calculate volume price
-    */
-    /*_updateFormFields: function (config, map, configType, additionalOptions, dimensions) {
-      var config = this.currentConfig;
-      var map = this.configMap;
-      var configType = this.configType;
-      var additionalOptions = this.additionalOptions;
-      var volume = 1;
-      var additionalObj = {};
-      for (var attr in config) {
-        if (map.has(attr)) {
-          var attrId = map.get(attr).get('id');
-          switch (configType.get(attr)) {
-            case 'Number':
-              // update number
-              if (dimensions.includes(attr)) {
-                volume = config[attr] * volume;
-              }
-              var attrValue = map.get(attr).get('options').get(attr).get('id');
-              document.getElementById('bundle_option[' + attrId + ']').setAttribute('value', attrValue);
-              document.getElementById('bundle_option_qty[' + attrId + ']').setAttribute('value', config[attr]);
-              break;
-            case 'Options':
-              // update options
-              // choose from leather or fabric
-              if (attr === "Fabric Options" && config["Cover Material"] === "Leather" ||
-                  attr === "Leather Options" && config["Cover Material"] === "Fabric") {
-                break;
-              }
-              // sometimes config[attr] is an obj...
-              var configString = typeof config[attr] == 'string' ? config[attr] : config[attr].value;
-              var attrValue = map.get(attr).get('options').get(configString).get('id');
-              document.getElementById('bundle_option[' + attrId + ']').setAttribute('value', attrValue);
-              document.getElementById('bundle_option_qty[' + attrId + ']').setAttribute('value', '1');
-              break;
-            case 'Boolean':
-              // update boolean
-              var attrValue = map.get(attr).get('options').get(config[attr].toString()).get('id');
-              document.getElementById('bundle_option[' + attrId + ']').setAttribute('value', attrValue);
-              document.getElementById('bundle_option_qty[' + attrId + ']').setAttribute('value', '1');
-              break;
-            case 'Color':
-              // color will be treated as additional option
-              break;
-          }
-
-
-        }
-        else if (additionalOptions.includes(attr)) {
-          var optionString = "";
-          if (typeof config[attr] == 'string') {
-            optionString = config[attr];
-          }
-          else if (typeof config[attr] == 'number') {
-            if (dimensions.includes(attr)) {
-                volume = config[attr] * volume;
-            }
-            optionString = config[attr].toString();
-          }
-          else if (typeof config[attr] == 'object') {
-            for (var key in config[attr]) {
-              if (config[attr].hasOwnProperty(key)) {
-                optionString = optionString + key + ": " + config[attr][key] + " ";
-              }
-            }
-          }
-          else {
-            console.warn("Don't know how to print " + attr);
-          }
-          additionalObj[attr] = optionString;
-        }
-        else {
-          console.warn(attr + " not found in config map");
-        }
-      }
-      // update volume price
-      volume = volume / 10;
-      var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
-      var volumeId = map.get('Volume_Price').get('id');
-      var volumeOptionId = map.get('Volume_Price').get('options').get(materialPrice).get('id');
-      document.getElementById('bundle_option[' + volumeId + ']').setAttribute('value', volumeOptionId);
-      document.getElementById('bundle_option_qty[' + volumeId + ']').setAttribute('value', volume);
-
-      // update additional options
-      document.getElementById('clara_additional_options').setAttribute('value', JSON.stringify(additionalObj));
-
-      return volume;
-    },*/
 
     _updatePrice: function () {
       var volume = this.currentConfigVolume;
@@ -603,7 +445,6 @@ define([
       var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
       var unitPrice = map.get('Volume_Price').get('options').get(materialPrice).get('prices')['finalPrice']['amount'];
       var result = volume ? volume * unitPrice : 0;
-      console.log("unit price = " + unitPrice);
 
       for (var key in config) {
         if (map.has(key)) {
