@@ -350,7 +350,7 @@ define([
       var result = {};
       var config = this.currentConfig;
       result['product'] = this.options.productId;
-      result['formkey'] = this.options.formkey;
+      result['form_key'] = $.cookie('form_key');
       if (!config) {
         return result;
       }
