@@ -110,7 +110,7 @@ define([
 
     _submitForm: function (form) {
       var self = this;
-      var xhr = new XMLHttpRequest();
+      /*var xhr = new XMLHttpRequest();
       console.log(self.options.submitUrl);
       xhr.open('POST', self.options.submitUrl);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -122,20 +122,22 @@ define([
       for ( var key in form ) {
           form_data.append(key, form[key]);
       }
-      xhr.send(form_data);
+      xhr.send(form_data);*/
 
-      /*$(self.options.minicartSelector).trigger('contentLoading');
+      $(self.options.minicartSelector).trigger('contentLoading');
+      const postParams = Object.keys(form).map((key) => {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(form[key]);
+      }).join('&');
 
 
       $.ajax({
         url: self.options.submitUrl,
-        data: form_data,
+        data: postParams,
         type: 'post',
-        processData: false,
-        contentType: false,
+        contentType: 'application/x-www-form-urlencoded',
 
         /** @inheritdoc */
-        /*success: function (res) {
+        success: function (res) {
           var eventData, parameters;
 
           if (res.backUrl) {
@@ -173,7 +175,7 @@ define([
             .html(res.product.statusText);
           }
         }
-      });*/
+      });
     },
 
     _createConfigType: function () {
