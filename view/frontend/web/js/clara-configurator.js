@@ -113,7 +113,7 @@ define([
       var self = this;
       var xhr = new XMLHttpRequest();
       xhr.open('POST', self.options.submitUrl, false);
-      xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
 
 
